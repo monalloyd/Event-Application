@@ -1,0 +1,30 @@
+server:
+  port: 8081
+
+rsa:
+  private-key: classpath:certificates/private.pem
+  public-key: classpath:certificates/public.pem
+
+datasets:
+  events:
+    - time: "2023-10-18T09:00:00"
+      eventType: PLEIN_AIR
+    - time: "2023-10-18T11:00:00"
+      eventType: DRINK_AND_DRAW
+    - time: "2023-10-20T09:00:00"
+      eventType: DRINK_AND_DRAW
+    - time: "2023-10-18T09:00:00"
+      eventType: PLEIN_AIR
+  locations:
+    - street: Parkring 1
+      city: Vienna
+      zipcode: 1010
+      country: Austria
+    - street: Marc-Aurel-Strasse 10-12
+      city: Vienna
+      zipcode: 1010
+      country: Austria
+    - street: Roskildevoegen 1B
+      city: Malmoe
+      zipcode: 211 47
+      country: Sweden
