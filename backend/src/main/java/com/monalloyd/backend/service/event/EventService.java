@@ -36,7 +36,7 @@ public class EventService {
     }
 
     public Page<EventDTO> findAll(Pageable pageable) {
-        Page<Event> events = eventRepository.findAll(pageable, Sort.by("time"));
+        Page<Event> events = eventRepository.findAll(pageable);
         return events.map(eventDTOMapper::eventToDTO);
     }
 
@@ -54,7 +54,7 @@ public class EventService {
             EventType eventType, LocalDateTime start, LocalDateTime end,
             String street, String zipcode, String state, String city, String country, Pageable pageable) {
         Page<Event> events = eventRepository.findByOptionalFilters(
-                eventType, start, end, street, zipcode, state, city, country, pageable, Sort.by("time"));
+                eventType, start, end, street, zipcode, state, city, country, pageable);
         return events.map(eventDTOMapper::eventToDTO);
     }
 
@@ -121,7 +121,7 @@ public class EventService {
     public List<EventDTO> findByUserId(long id, Authentication authentication) {
         User user = userRepository.getReferenceById(id);
         if (eventAuthenticator.isOwner(user, authentication) || eventAuthenticator.isAdmin(authentication)) {
-            return eventRepository.findByUserId(id, Sort.by("time"))
+            return eventRepository.findByUserId(id)
                     .stream()
                     .map(eventDTOMapper::eventToDTO)
                     .toList();

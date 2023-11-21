@@ -4,7 +4,6 @@ import com.monalloyd.backend.model.Event;
 import com.monalloyd.backend.model.EventType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,7 +20,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "AND (:zipcode IS NULL OR e.location.zipcode = :zipcode) " +
             "AND (:state IS NULL OR e.location.state = :state) " +
             "AND (:city IS NULL OR e.location.city = :city) " +
-            "AND (:country IS NULL OR e.location.country = :country)")
+            "AND (:country IS NULL OR e.location.country = :country)" +
+            "ORDER BY e.time DESC")
     Page<Event> findByOptionalFilters(
             @Param("eventType") EventType eventType,
             @Param("start") LocalDateTime start,
@@ -31,9 +31,14 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             @Param("state") String state,
             @Param("city") String city,
             @Param("country") String country,
-            Pageable pageable, Sort time);
+            Pageable pageable);
 
-    Page<Event> findAll(Pageable pageable, Sort time);
+    @Query("SELECT e FROM Event e " +
+            "ORDER BY e.time DESC")
+    Page<Event> findAll(Pageable pageable);
 
-    List<Event> findByUserId(long id, Sort time);
+    @Query("SELECT e FROM Event e " +
+            "WHERE (e.user.id = :id) " +
+            "ORDER BY e.time DESC")
+    List<Event> findByUserId(long id);
 }
