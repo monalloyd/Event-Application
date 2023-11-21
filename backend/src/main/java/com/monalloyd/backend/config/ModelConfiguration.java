@@ -23,4 +23,7 @@ public class ModelConfiguration {
     public UserDTOMapper userDTOMapper(){
         return new UserDTOMapper(modelMapper());
     }
+
+    @Bean
+    public EventAuthenticator eventAuthenticator() { return new EventAuthenticator(); }
 }
