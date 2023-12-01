@@ -7,12 +7,10 @@ import com.monalloyd.backend.repository.UserRepository;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -51,10 +49,10 @@ public class EventService {
     }
 
     public Page<EventDTO> findByOptionalFilters(
-            EventType eventType, LocalDateTime start, LocalDateTime end,
+            EventType eventType, LocalDateTime start, LocalDateTime end, String venue,
             String street, String zipcode, String state, String city, String country, Pageable pageable) {
         Page<Event> events = eventRepository.findByOptionalFilters(
-                eventType, start, end, street, zipcode, state, city, country, pageable);
+                eventType, start, end, venue, street, zipcode, state, city, country, pageable);
         return events.map(eventDTOMapper::eventToDTO);
     }
 

@@ -11,7 +11,7 @@ public class Event {
     private Long id;
     @ManyToOne
     private User user;
-    private String name;
+    private String venue;
     private LocalDateTime time;
     private EventType eventType;
     @ManyToOne
@@ -20,10 +20,10 @@ public class Event {
 
     public Event() {}
 
-    public Event(Long id, User user, String name, LocalDateTime time, EventType eventType, Location location, String description) {
+    public Event(Long id, User user, String venue, LocalDateTime time, EventType eventType, Location location, String description) {
         this.id = id;
         this.user = user;
-        this.name = name;
+        this.venue = venue;
         this.time = time;
         this.eventType = eventType;
         this.location = location;
@@ -46,12 +46,12 @@ public class Event {
         this.user = user;
     }
 
-    public String getName() {
-        return name;
+    public String getVenue() {
+        return venue;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setVenue(String name) {
+        this.venue = name;
     }
 
     public LocalDateTime getTime() {

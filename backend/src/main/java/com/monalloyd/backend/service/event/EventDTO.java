@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class EventDTO {
     private Long id;
     private String userId;
-    private String name;
+    private String venue;
     private LocalDateTime time;
     private EventType eventType;
     private Location location;
@@ -30,12 +30,12 @@ public class EventDTO {
         this.userId = userId;
     }
 
-    public String getName() {
-        return name;
+    public String getVenue() {
+        return venue;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setVenue(String venue) {
+        this.venue = venue;
     }
 
     public LocalDateTime getTime() {

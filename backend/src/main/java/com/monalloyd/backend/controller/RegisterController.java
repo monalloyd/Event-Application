@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping("register")
 public class RegisterController {
@@ -19,6 +21,7 @@ public class RegisterController {
 
     @PostMapping
     UserRegistrationResult save(@RequestBody User user) {
+        user.setAuthorities(Set.of("ROLE_USER"));
         return userService.save(user);
     }
 }

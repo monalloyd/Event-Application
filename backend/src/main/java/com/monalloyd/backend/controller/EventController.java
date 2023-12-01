@@ -39,13 +39,14 @@ public class EventController {
             @RequestParam(value = "start", required = false) LocalDateTime start,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
             @RequestParam(value = "end", required = false) LocalDateTime end,
+            @RequestParam(value = "venue", required = false) String venue,
             @RequestParam(value = "street", required = false) String street,
             @RequestParam(value = "zipcode", required = false) String zipcode,
             @RequestParam(value = "state", required = false) String state,
             @RequestParam(value = "city", required = false) String city,
             @RequestParam(value = "country", required = false) String country,
             Pageable pageable) {
-        return eventService.findByOptionalFilters(eventType, start, end, street, zipcode, state,
+        return eventService.findByOptionalFilters(eventType, start, end, venue, street, zipcode, state,
                 city, country, pageable);
     }
 
