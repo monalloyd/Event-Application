@@ -33,12 +33,22 @@ export const register = (body) => {
     });
 };
 
-export const fetchAllEvents = (params, token) => {
+export const fetchEvents = (params, token) => {
     const headers = new Headers();
     headers.set('Authorization', 'Bearer ' + token);
   
-    return fetch(server + "events?" + params, {
+    return fetch(server + "events/filter?" + params, {
       method: "GET",
       headers: headers
     });
+};
+
+export const fetchAllEventTypes = (token) => {
+  const headers = new Headers();
+  headers.set('Authorization', 'Bearer ' + token);
+
+  return fetch(server + "types", {
+    method: "GET",
+    headers: headers
+  });
 };

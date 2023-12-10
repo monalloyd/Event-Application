@@ -7,8 +7,8 @@ const LogoutButton = () => {
   
     const handleLogout = () => {
         setAuthData();
-        localStorage.removeItem("token", newToken);
-        localStorage.removeItem("roles", newRoles);
+        localStorage.removeItem("token");
+        localStorage.removeItem("roles");
         navigate("/", { replace: true });
     };
   

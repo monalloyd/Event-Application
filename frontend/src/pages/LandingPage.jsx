@@ -10,9 +10,12 @@ const LandingPage = () => {
   
     return (
         <>
-        <h1>Welcome!</h1>
-        <button onClick={() => handleNavigate("login")}>Login</button>
-        <button onClick={() => handleNavigate("register")}>Register</button>
+        <h2>No. 1 Meet-Up Service for Artists</h2>
+        <h1>Welcome</h1>
+        <div>Already have an account?</div>
+        <div><button onClick={() => handleNavigate("login")}>Login</button></div>
+        <div>New to the site?</div>
+        <div><button onClick={() => handleNavigate("register")}>Register</button></div>
         </>
     );
 };
