@@ -4,8 +4,7 @@ const LandingPage = () => {
     const navigate = useNavigate();
   
     const handleNavigate = (path) => {
-        navigate(`/${path}`, { replace: true });
-        
+        navigate(`/${path}`, { replace: true });  
     };
   
     return (

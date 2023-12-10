@@ -127,4 +127,12 @@ public class EventService {
             throw new AccessDeniedException("You are not authorized to perform this action.");
         }
     }
+
+    public EventDTO create(EventDTO eventDTO, Authentication authentication) {
+        Event event = getEvent(eventDTO);
+        User user = userRepository.findByUsername(authentication.getName()).get();
+        event.setUser(user);
+        Event createdEvent = eventRepository.save(event);
+        return eventDTOMapper.eventToDTO(createdEvent);
+    }
 }

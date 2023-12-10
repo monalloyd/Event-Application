@@ -23,13 +23,13 @@ export const refreshToken = (token) => {
     });
 };
 
-export const register = (body) => {
+export const register = (user) => {
     return fetch(server + "register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(user)
     });
 };
 
@@ -52,3 +52,37 @@ export const fetchAllEventTypes = (token) => {
     headers: headers
   });
 };
+
+export function createEvent(event, token) {
+  const headers = new Headers();
+  headers.set('Authorization', 'Bearer ' + token);
+  headers.set("Content-Type", "application/json");
+
+  return fetch(server + "events", {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(event),
+  });
+}
+
+export function updateEvent(event, token) {
+  const headers = new Headers();
+  headers.set('Authorization', 'Bearer ' + token);
+  headers.set("Content-Type", "application/json");
+
+  return fetch(server + "events", {
+      method: "PUT",
+      headers: headers,
+      body: JSON.stringify(event),
+  });
+}
+
+export function deleteEvent(id, token) {
+  const headers = new Headers();
+  headers.set('Authorization', 'Bearer ' + token);
+
+  return fetch(server + "events/" + id, {
+    method: "DELETE",
+    headers: headers,
+  });
+}

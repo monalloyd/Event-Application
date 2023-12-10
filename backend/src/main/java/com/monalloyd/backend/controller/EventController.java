@@ -51,7 +51,7 @@ public class EventController {
     }
 
     @GetMapping("/created/{id}")
-    List<EventDTO> findByUserUsername(@PathVariable long id, Authentication authentication) {
+    List<EventDTO> findByUserId(@PathVariable long id, Authentication authentication) {
         return eventService.findByUserId(id, authentication);
     }
 
@@ -61,8 +61,8 @@ public class EventController {
     }
 
     @PostMapping
-    EventDTO create(@RequestBody EventDTO eventDTO) {
-        return eventService.save(eventDTO);
+    EventDTO create(@RequestBody EventDTO eventDTO, Authentication authentication) {
+        return eventService.create(eventDTO, authentication);
     }
 
     @PutMapping

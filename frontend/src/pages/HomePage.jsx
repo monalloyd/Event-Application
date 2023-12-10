@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import { fetchEvents, refreshToken } from "../api/api";
+import { fetchEvents, deleteEvent } from "../api/api";
 import { useSearchParams } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
-import LogoutButton from "../components/LogoutButton";
 import Feed from "../components/Feed";
 import Filter from "../components/Filter";
 
-const Home = () => {
-    const { token, roles, setAuthData } = useAuth();
+const HomePage = () => {
+    const { token } = useAuth();
     const [ events, setEvents ] = useState([]);
     const [ searchParams, setSearchParams ] = useSearchParams();
     const [ isLastPage, setIsLastPage ] = useState(false);
     const [ isFirstPage, setIsFirstPage ] = useState(true);
     const [ showFilter, setShowFilter ] = useState(false);
+    const [ fetchToggl, setFetchToggl ] = useState(false);
 
     useEffect(() => {
         fetchEvents(searchParams, token)
@@ -24,14 +24,14 @@ const Home = () => {
 
             searchParams.set("page", data.number);
             searchParams.set("size", data.size);
-            const newSearchParams = searchParams.getAll();
+            const newSearchParams = searchParams;
             
             setSearchParams(newSearchParams);
         })
         .catch((error) => {
             console.error("Error fetching data:", error);
         });
-    }, [searchParams]);
+    }, [searchParams, fetchToggl]);
 
     const fetchNextPage = () => {
         const newPage = parseInt(searchParams.get("page") + 1);
@@ -86,17 +86,6 @@ const Home = () => {
         setSearchParams(newFilters);
     }
 
-    const refreshAuthToken = () => {
-        refreshToken(token)
-        .then(res => res.text())
-        .then((response) => {
-            setAuthData(response, roles);
-        })
-        .catch((error) => {
-            console.error("Error fetching data:", error);
-        });
-    }
-
     const toggleFilter = (e) => {
         showFilter ? setShowFilter(false) : setShowFilter(true);
         e.target.blur();
@@ -107,14 +96,17 @@ const Home = () => {
         setSearchParams({ size });
     }
 
+    const onDelete = (id) => {
+        deleteEvent(id, token)
+        .then(() => {
+            const newEvents = events.filter(e => !e.id === id);
+            fetchToggl ? setFetchToggl(false) : setFetchToggl(true);
+        })
+        .catch(err => console.log("Error deleteing data: " + err));
+    }
+
     return (
         <>
-            <div>
-                <button onClick={() => refreshAuthToken()}>Temp Refresh Token Button</button>
-            </div>
-            <div>
-                <LogoutButton />
-            </div>
             <div>
                 <button onClick={(e) => toggleFilter(e)}>Filter</button>
             </div>
@@ -136,7 +128,7 @@ const Home = () => {
                 </select>
             </div>
             <div>
-                <Feed events={events}/>
+                <Feed events={events} onDelete={onDelete}/>
             </div>
             <div>
                 {
@@ -150,4 +142,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default HomePage;

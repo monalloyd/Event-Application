@@ -2,6 +2,17 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 const AuthContext = createContext();
 
+// const refreshAuthToken = () => {
+//   refreshToken(token)
+//   .then(res => res.text())
+//   .then((response) => {
+//       setAuthData(response, roles);
+//   })
+//   .catch((error) => {
+//       console.error("Error fetching data:", error);
+//   });
+// }
+
 const AuthProvider = ({ children }) => {
   const storedToken = localStorage.getItem("token");
   const storedRoles = localStorage.getItem("roles");

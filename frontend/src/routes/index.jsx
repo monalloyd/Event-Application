@@ -1,11 +1,13 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
 import { ProtectedRoute } from "./ProtectedRoute";
-import Login from "../pages/Login";
-import Error from "../pages/Error";
-import Home from "../pages/Home";
+import LoginPage from "../pages/LoginPage";
+import ErrorPage from "../pages/ErrorPage";
+import HomePage from "../pages/HomePage";
 import LandingPage from "../pages/LandingPage";
-import Register from "../pages/Register";
+import RegisterPage from "../pages/RegisterPage";
+import Header from "../components/Header";
+import CreateEventPage from "../pages/CreateEventPage";
 
 const Routes = () => {
     const { token } = useAuth();
@@ -13,16 +15,20 @@ const Routes = () => {
     const routesForAuthenticatedOnly = [
       {
         path: "/",
-        element: <ProtectedRoute role={"ROLE_USER"}/>,
-        errorElement: <Error />,
+        element: <Header><ProtectedRoute role={"ROLE_USER"}/></Header>,
+        errorElement: <ErrorPage />,
         children: [
             {
                 path: "/home",
-                element: <Home />,
+                element: <HomePage />,
             },
             {
                 path: "/profile",
                 element: <div>User Profile</div>,
+            },
+            {
+                path: "/new",
+                element: <CreateEventPage />,
             }
         ],
       },
@@ -31,7 +37,7 @@ const Routes = () => {
     const routesForAdminOnly = [
         {
             path: "/admin",
-            element: <ProtectedRoute role={"ROLE_ADMIN"} />,
+            element: <Header><ProtectedRoute role={"ROLE_ADMIN"} /></Header>,
             children: [
                 {
                     path: "/admin",
@@ -49,11 +55,11 @@ const Routes = () => {
         },
         {
             path: "/login",
-            element: <Login />,
+            element: <LoginPage />,
         },
         {
             path: "/register",
-            element: <Register />,
+            element: <RegisterPage />,
         }
     ];
     
