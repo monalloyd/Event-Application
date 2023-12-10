@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
 import Feed from "../components/Feed";
 import Filter from "../components/Filter";
+import NoEventsBlurb from "../components/NoEventsBlurb";
 
 const HomePage = () => {
     const { token } = useAuth();
@@ -138,6 +139,9 @@ const HomePage = () => {
                     !isLastPage && <button onClick={fetchNextPage}>next</button>
                 }
             </div>
+            {
+                events.length === 0 && searchParams.size <= 2 && <NoEventsBlurb />
+            }
         </>
     );
 };

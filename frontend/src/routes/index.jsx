@@ -8,6 +8,7 @@ import LandingPage from "../pages/LandingPage";
 import RegisterPage from "../pages/RegisterPage";
 import Header from "../components/Header";
 import CreateEventPage from "../pages/CreateEventPage";
+import Redirect from "./Redirect";
 
 const Routes = () => {
     const { token } = useAuth();
@@ -18,6 +19,10 @@ const Routes = () => {
         element: <Header><ProtectedRoute role={"ROLE_USER"}/></Header>,
         errorElement: <ErrorPage />,
         children: [
+            {
+                path: "/",
+                element: <Redirect />,
+            },
             {
                 path: "/home",
                 element: <HomePage />,
