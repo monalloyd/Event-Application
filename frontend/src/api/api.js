@@ -17,10 +17,17 @@ export const refreshToken = (token) => {
     const headers = new Headers();
     headers.set('Authorization', 'Bearer ' + token);
   
-    return fetch(server + "session/refresh", {
+    fetch(server + "session/refresh", {
       method: "GET",
       headers: headers
-    });
+    })
+    .then(res => res.text())
+    .then((response) => {
+      localStorage.setItem("token", response);
+    })
+    .catch((error) => {
+        console.error("Error fetching data:", error);
+    });;
 };
 
 export const register = (user) => {
@@ -34,18 +41,24 @@ export const register = (user) => {
 };
 
 export const fetchEvents = (params, token) => {
-    const headers = new Headers();
-    headers.set('Authorization', 'Bearer ' + token);
-  
-    return fetch(server + "events/filter?" + params, {
-      method: "GET",
-      headers: headers
-    });
+  refreshToken(token);
+  const newToken = localStorage.getItem("token");
+
+  const headers = new Headers();
+  headers.set('Authorization', 'Bearer ' + newToken);
+
+  return fetch(server + "events/filter?" + params, {
+    method: "GET",
+    headers: headers
+  });
 };
 
 export const fetchAllEventTypes = (token) => {
+  refreshToken(token);
+  const newToken = localStorage.getItem("token");
+  
   const headers = new Headers();
-  headers.set('Authorization', 'Bearer ' + token);
+  headers.set('Authorization', 'Bearer ' + newToken);
 
   return fetch(server + "types", {
     method: "GET",
@@ -54,8 +67,10 @@ export const fetchAllEventTypes = (token) => {
 };
 
 export function createEvent(event, token) {
+  refreshToken(token);
+  const newToken = localStorage.getItem("token");
   const headers = new Headers();
-  headers.set('Authorization', 'Bearer ' + token);
+  headers.set('Authorization', 'Bearer ' + newToken);
   headers.set("Content-Type", "application/json");
 
   return fetch(server + "events", {
@@ -66,8 +81,11 @@ export function createEvent(event, token) {
 }
 
 export function updateEvent(event, token) {
+  refreshToken(token);
+  const newToken = localStorage.getItem("token");
+
   const headers = new Headers();
-  headers.set('Authorization', 'Bearer ' + token);
+  headers.set('Authorization', 'Bearer ' + newToken);
   headers.set("Content-Type", "application/json");
 
   return fetch(server + "events", {
@@ -78,8 +96,11 @@ export function updateEvent(event, token) {
 }
 
 export function deleteEvent(id, token) {
+  refreshToken(token);
+  const newToken = localStorage.getItem("token");
+  
   const headers = new Headers();
-  headers.set('Authorization', 'Bearer ' + token);
+  headers.set('Authorization', 'Bearer ' + newToken);
 
   return fetch(server + "events/" + id, {
     method: "DELETE",
