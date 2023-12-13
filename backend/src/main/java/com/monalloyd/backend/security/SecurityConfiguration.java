@@ -42,8 +42,8 @@ public class SecurityConfiguration {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers( "/login", "/register").permitAll();
-                    auth.requestMatchers("/events").hasRole("USER");
-                    auth.requestMatchers("/users").hasRole("ADMIN");
+                    auth.requestMatchers("/events", "/users").hasRole("USER");
+                    auth.requestMatchers("/admin").hasRole("ADMIN");
                     auth.anyRequest().authenticated();
                 })
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))

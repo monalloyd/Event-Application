@@ -14,6 +14,10 @@ const Header = () => {
         navigate("/new", { replace: true });
     }
 
+    const goToAdminPage = () => {
+        navigate("/admin", { replace: true });
+    }
+
     return (
         <>
         <button onClick={returnHome}>Home</button>
@@ -24,7 +28,7 @@ const Header = () => {
             </>
         }
         {
-            roles.includes("ROLE_ADMIN") && <button>Admin Panel</button>
+            roles.includes("ROLE_ADMIN") && <button onClick={goToAdminPage}>Admin Panel</button>
         }
         <LogoutButton />
         <Outlet />

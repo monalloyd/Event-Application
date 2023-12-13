@@ -17,6 +17,7 @@ public class User {
     private String password;
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> authorities;
+    private boolean deleted;
 
     public User() {
     }
@@ -27,6 +28,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.authorities = authorities;
+        this.deleted = false;
     }
 
     public Long getId() {
@@ -67,6 +69,14 @@ public class User {
 
     public void setAuthorities(Set<String> authorities) {
         this.authorities = authorities;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     @Override

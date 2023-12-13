@@ -53,7 +53,7 @@ export const fetchEvents = (params, token) => {
   });
 };
 
-export const fetchAllEventTypes = (token) => {
+export const fetchEventTypes = (token) => {
   refreshToken(token);
   const newToken = localStorage.getItem("token");
   
@@ -78,7 +78,7 @@ export function createEvent(event, token) {
       headers: headers,
       body: JSON.stringify(event),
   });
-}
+};
 
 export function updateEvent(event, token) {
   refreshToken(token);
@@ -93,7 +93,7 @@ export function updateEvent(event, token) {
       headers: headers,
       body: JSON.stringify(event),
   });
-}
+};
 
 export function deleteEvent(id, token) {
   refreshToken(token);
@@ -106,4 +106,43 @@ export function deleteEvent(id, token) {
     method: "DELETE",
     headers: headers,
   });
-}
+};
+
+export function fetchEventsByUser(token) {
+  refreshToken(token);
+  const newToken = localStorage.getItem("token");
+  
+  const headers = new Headers();
+  headers.set('Authorization', 'Bearer ' + newToken);
+
+  return fetch(server + "events/created", {
+    method: "GET",
+    headers: headers
+  });
+};
+
+export function fetchAllUsers(token) {
+  refreshToken(token);
+  const newToken = localStorage.getItem("token");
+  
+  const headers = new Headers();
+  headers.set('Authorization', 'Bearer ' + newToken);
+
+  return fetch(server + "admin/users", {
+    method: "GET",
+    headers: headers
+  });
+};
+
+export function deleteUser(id, token) {
+  refreshToken(token);
+  const newToken = localStorage.getItem("token");
+  
+  const headers = new Headers();
+  headers.set('Authorization', 'Bearer ' + newToken);
+
+  return fetch(server + "admin/" + id, {
+    method: "DELETE",
+    headers: headers,
+  });
+};

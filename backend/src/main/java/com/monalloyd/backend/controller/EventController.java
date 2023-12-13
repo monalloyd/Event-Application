@@ -50,9 +50,9 @@ public class EventController {
                 city, country, pageable);
     }
 
-    @GetMapping("/created/{id}")
-    List<EventDTO> findByUserId(@PathVariable long id, Authentication authentication) {
-        return eventService.findByUserId(id, authentication);
+    @GetMapping("/created")
+    List<EventDTO> findByUser(Authentication authentication) {
+        return eventService.findByUser(authentication);
     }
 
     @GetMapping("/types")

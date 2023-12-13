@@ -4,8 +4,10 @@ import com.monalloyd.backend.model.User;
 import com.monalloyd.backend.repository.UserRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,13 +17,14 @@ import java.util.Set;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
     private final UserDTOMapper userDTOMapper;
+    private final UserDeleter userDeleter;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserDTOMapper userDTOMapper) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserDTOMapper userDTOMapper, UserDeleter userDeleter) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userDTOMapper = userDTOMapper;
+        this.userDeleter = userDeleter;
     }
 
     public UserRegistrationResult save(User user) {
@@ -47,10 +50,15 @@ public class UserService {
 
     public List<UserDTO> findAll() {
         return userRepository.findAll(Sort.by("username"))
-                .stream().map(userDTOMapper::userToDTO).toList();
+                .stream()
+                .filter(u -> !u.isDeleted())
+                .filter(u -> !u.getAuthorities().contains("ROLE_ADMIN"))
+                .map(userDTOMapper::userToDTO).toList();
     }
 
-    public void delete(long id) {
-        userRepository.deleteById(id);
+    public void delete(Authentication authentication) {
+        User user = userRepository.findByUsername(authentication.getName()).get();
+        User deletedUser = userDeleter.deleteUser(user);
+        userRepository.save(deletedUser);
     }
 }

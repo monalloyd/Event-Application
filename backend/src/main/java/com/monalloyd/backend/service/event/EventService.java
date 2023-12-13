@@ -116,10 +116,10 @@ public class EventService {
         }
     }
 
-    public List<EventDTO> findByUserId(long id, Authentication authentication) {
-        User user = userRepository.getReferenceById(id);
+    public List<EventDTO> findByUser(Authentication authentication) {
+        User user = userRepository.findByUsername(authentication.getName()).get();
         if (eventAuthenticator.isOwner(user, authentication) || eventAuthenticator.isAdmin(authentication)) {
-            return eventRepository.findByUserId(id)
+            return eventRepository.findByUserId(user.getId())
                     .stream()
                     .map(eventDTOMapper::eventToDTO)
                     .toList();

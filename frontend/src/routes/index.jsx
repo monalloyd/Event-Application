@@ -8,6 +8,7 @@ import LandingPage from "../pages/LandingPage";
 import RegisterPage from "../pages/RegisterPage";
 import Header from "../components/Header";
 import CreateEventPage from "../pages/CreateEventPage";
+import AdminPage from "../pages/AdminPage";
 import Redirect from "./Redirect";
 
 const Routes = () => {
@@ -46,7 +47,7 @@ const Routes = () => {
             children: [
                 {
                     path: "/admin",
-                    element: <div>Admin stuff</div>,
+                    element: <AdminPage />,
                 },
                 
             ],
