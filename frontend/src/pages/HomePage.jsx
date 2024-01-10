@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { fetchEvents, deleteEvent } from "../api/api";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
 import Feed from "../components/Feed";
 import Filter from "../components/Filter";
 import NoEventsBlurb from "../components/NoEventsBlurb";
 
 const HomePage = () => {
-    const { token } = useAuth();
+    const { token, setAuthData } = useAuth();
+    const navigate = useNavigate();
     const [ events, setEvents ] = useState([]);
     const [ searchParams, setSearchParams ] = useSearchParams();
     const [ isLastPage, setIsLastPage ] = useState(false);
@@ -31,6 +32,12 @@ const HomePage = () => {
         })
         .catch((error) => {
             console.error("Error fetching data:", error);
+            if(!localStorage.getItem("token") || localStorage.getItem("token") == "" ) {
+                setAuthData();
+                localStorage.removeItem("roles");
+                localStorage.removeItem("token");
+                navigate("/", { replace: true });
+            }
         });
     }, [searchParams, fetchToggl]);
 
@@ -100,7 +107,6 @@ const HomePage = () => {
     const onDelete = (id) => {
         deleteEvent(id, token)
         .then(() => {
-            const newEvents = events.filter(e => !e.id === id);
             fetchToggl ? setFetchToggl(false) : setFetchToggl(true);
         })
         .catch(err => console.log("Error deleteing data: " + err));

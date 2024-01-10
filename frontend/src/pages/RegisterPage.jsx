@@ -16,13 +16,16 @@ const RegisterPage = () => {
             email,
             password
         };
+
+        console.log("registering...");
         
         register(body)
-        .then(response => response.json())
+        //.then(response => response.json())
         .then((response) => {
-            if (!response.user) {
-                setErrorMessage(response.error);
-                throw new Error(response.error);
+            console.log(response.body.toString());
+            if (!response.isOk) {
+                setErrorMessage(response.message);
+                throw new Error(response.message);
             } else {
                 setErrorMessage(null);
                 navigate("/login", { replace: true });

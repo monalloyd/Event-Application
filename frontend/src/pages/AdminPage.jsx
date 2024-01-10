@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { fetchAllUsers, deleteUser } from "../api/api";
 import { useAuth } from "../provider/AuthProvider";
 import UserFeed from "../components/UserFeed";
 
 const AdminPage = () => {
-    const { token } = useAuth();
+    const { token, setAuthData } = useAuth();
+    const navigate = useNavigate();
     const [ users, setUsers ] = useState([]);
     const [ fetchToggl, setFetchToggl ] = useState(false);
 
@@ -16,6 +18,12 @@ const AdminPage = () => {
         })
         .catch((error) => {
             console.error("Error fetching data:", error);
+            if(!localStorage.getItem("token") || localStorage.getItem("token") == "") {
+                setAuthData();
+                localStorage.removeItem("roles");
+                localStorage.removeItem("token");
+                navigate("/", { replace: true });
+            }
         });
     }, [fetchToggl])
 
