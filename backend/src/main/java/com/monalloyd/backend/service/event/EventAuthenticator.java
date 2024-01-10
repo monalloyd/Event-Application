@@ -3,7 +3,9 @@ package com.monalloyd.backend.service.event;
 import com.monalloyd.backend.model.Event;
 import com.monalloyd.backend.model.User;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
 
+@Service
 public class EventAuthenticator {
 
     public boolean isOwner(Event event, Authentication authentication) {

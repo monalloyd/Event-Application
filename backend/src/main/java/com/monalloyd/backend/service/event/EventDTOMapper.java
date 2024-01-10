@@ -2,7 +2,9 @@ package com.monalloyd.backend.service.event;
 
 import com.monalloyd.backend.model.Event;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
+@Service
 public class EventDTOMapper {
     private final ModelMapper modelMapper;
 
