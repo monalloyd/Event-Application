@@ -2,7 +2,9 @@ package com.monalloyd.backend.service.user;
 
 import com.monalloyd.backend.model.User;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserDTOMapper {
     private final ModelMapper modelMapper;
 

@@ -21,7 +21,6 @@ public class RegisterController {
 
     @PostMapping
     UserRegistrationResult save(@RequestBody User user) {
-        user.setAuthorities(Set.of("ROLE_USER"));
         return userService.save(user);
     }
 }

@@ -7,8 +7,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -29,12 +29,15 @@ public class UserService {
 
     public UserRegistrationResult save(User user) {
         String password = passwordEncoder.encode(user.getPassword());
+        Set<String> authorities = new HashSet<>();
+        authorities.add("ROLE_USER");
         user.setPassword(password);
-        user.setAuthorities(Set.of("ROLE_USER"));
+        user.setAuthorities(authorities);
+        user.setDeleted(false);
 
         try {
-            User newUser = userRepository.save(user);
-            return new UserRegistrationResult(Optional.of(newUser), Optional.empty());
+            userRepository.save(user);
+            return new UserRegistrationResult(Optional.empty(), false);
         } catch(DataIntegrityViolationException exception) {
             String exceptionMsg = exception.getCause().getLocalizedMessage();
             String errorMessage = "";
@@ -44,7 +47,7 @@ public class UserService {
             if(exceptionMsg.contains(user.getUsername())) {
                 errorMessage = "Username already exists";
             }
-            return new UserRegistrationResult(Optional.empty(), Optional.of(errorMessage));
+            return new UserRegistrationResult(Optional.of(errorMessage), false);
         }
     }
 
