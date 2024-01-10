@@ -26,7 +26,8 @@ export const refreshToken = (token) => {
       localStorage.setItem("token", response);
     })
     .catch((error) => {
-        console.error("Error fetching data:", error);
+      localStorage.clear();
+      console.error("Error fetching data:", error);
     });;
 };
 
